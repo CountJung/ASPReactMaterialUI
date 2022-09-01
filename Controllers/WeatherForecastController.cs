@@ -31,7 +31,7 @@ public class WeatherForecastController : ControllerBase
         });
         //_logger?.Log(LogLevel.Information, $"RandomData={WeatherForecastsDatas.ToArray()}");
         WeatherForecastsDatas=weatherData.ToList();
-        return weatherData.ToArray();
+        return WeatherForecastsDatas.ToArray();
     }
     [HttpPost("data")]
     public IEnumerable<WeatherForecast>? PostData([FromBody]string weatherString)
@@ -41,8 +41,8 @@ public class WeatherForecastController : ControllerBase
             if (weatherString == null)
                 return WeatherForecastsDatas?.ToArray();
             //TemporaryForecastData tempData= JsonConvert.DeserializeObject<TemporaryForecastData>(weatherString);
-            WeatherForecast weather = JsonConvert.DeserializeObject<WeatherForecast>(weatherString);
-            weather.Date = DateTime.Now;
+            WeatherForecast? weather = JsonConvert.DeserializeObject<WeatherForecast>(weatherString);
+            weather!.Date = DateTime.Now;
             WeatherForecastsDatas?.Add(weather);
         }
         catch(Exception ex)
